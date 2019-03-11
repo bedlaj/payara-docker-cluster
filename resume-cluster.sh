@@ -12,18 +12,19 @@
 #===============================================================================
 
 set -o nounset                              # Treat unset variables as an error
-
-ASADMIN=/opt/payara41/glassfish/bin/asadmin
-PAYA_HOME=/opt/payara41
+#DOCKER="docker -H localhost" #for TCP pipe - EG to call from bash windows subsystem
+DOCKER="docker"
+ASADMIN=/opt/payara/appserver/bin/asadmin
+PAYA_HOME=/opt/payara
 PASSWORD=admin
 RASADMIN="$ASADMIN --user admin --passwordfile=$PAYA_HOME/pfile --port 4848 --host das"
 
-docker start das 2>/dev/null
-docker start node1 2>/dev/null
+$DOCKER start das 2>/dev/null
+$DOCKER start node1 2>/dev/null
 
-docker exec das $ASADMIN start-domain domain1
+$DOCKER exec das $ASADMIN start-domain production
 
-docker exec das   $RASADMIN start-local-instance --sync  full i00
-docker exec das   $RASADMIN start-local-instance --sync  full i01
-docker exec node1 $RASADMIN start-local-instance --sync  full i10
-docker exec node1 $RASADMIN start-local-instance --sync  full i11
+$DOCKER exec das   $RASADMIN start-local-instance --sync  full i00
+$DOCKER exec das   $RASADMIN start-local-instance --sync  full i01
+$DOCKER exec node1 $RASADMIN start-local-instance --sync  full i10
+$DOCKER exec node1 $RASADMIN start-local-instance --sync  full i11

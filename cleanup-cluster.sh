@@ -1,9 +1,9 @@
 #!/bin/bash - 
 #===============================================================================
 #
-#          FILE: teardown-cluster.sh
+#          FILE: cleanup-cluster.sh
 # 
-#         USAGE: ./teardown-cluster.sh 
+#         USAGE: ./cleanup-cluster.sh 
 # 
 #   DESCRIPTION: A script to cleanup the Payara cluster containers
 # 
@@ -13,10 +13,14 @@
 
 set -o nounset                              # Treat unset variables as an error
 
+#DOCKER="docker -H localhost" #for TCP pipe - EG to call from bash windows subsystem
+DOCKER="docker"
 
 # Attempt to clean up any old containers
-docker kill das   >/dev/null 2>&1
-docker kill node1 >/dev/null 2>&1
+$DOCKER kill das   >/dev/null 2>&1
+$DOCKER kill node1 >/dev/null 2>&1
 
-docker rm das     >/dev/null 2>&1
-docker rm node1   >/dev/null 2>&1
+$DOCKER rm das     >/dev/null 2>&1
+$DOCKER rm node1   >/dev/null 2>&1
+
+$DOCKER network rm payaranet
